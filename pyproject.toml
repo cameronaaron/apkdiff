@@ -1,0 +1,28 @@
+# Tool configuration only. apkdiff is not a Python package and is not installed:
+# the helpers under lib/ are run as scripts by apkdiff.sh, exactly as they are
+# on disk. They import nothing outside the standard library, deliberately — the
+# tool has to run wherever an archive can be unzipped, and a dependency that
+# needs resolving is a dependency that can be missing at the moment it is
+# wanted. The same rule holds on the Rust side, whose Cargo.lock has no entries.
+#
+# Everything here is developer tooling, and every one of these tools is optional:
+# `./run-tests.sh` skips whichever of them is absent rather than failing.
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# No addopts. run-tests.sh passes its own -q, and a second -q from here turns
+# pytest's one-line summary into a bare row of dots — which is exactly the line
+# the runner prints.
+
+[tool.coverage.run]
+branch = true
+# The helpers run as separate processes — that is how apkdiff.sh invokes them —
+# so each writes its own data file and they are combined afterwards. See
+# tests/_cov/sitecustomize.py for the hook that starts coverage inside them.
+parallel = true
+source = ["."]
+omit = ["tests/*", "rust/*", ".venv/*"]
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = ["pragma: no cover", "if __name__ == .__main__.:"]

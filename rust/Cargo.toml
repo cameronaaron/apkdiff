@@ -1,0 +1,22 @@
+[package]
+name = "apkdiff"
+version = "1.0.0"
+edition = "2021"
+license = "AGPL-3.0-or-later"
+description = "Fast helpers for apkdiff.sh: native-library string diffing and dex inventory extraction."
+
+[lib]
+name = "apkdiff"
+path = "src/lib.rs"
+
+[[bin]]
+name = "apkdiff-native-strings"
+path = "src/bin/native_strings.rs"
+
+[[bin]]
+name = "apkdiff-dex"
+path = "src/bin/dex.rs"
+
+[profile.release]
+opt-level = 3
+lto = true

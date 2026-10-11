@@ -1,0 +1,44 @@
+# SPDX-FileCopyrightText: 2026 Cameron Aaron
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# Copy to .github/workflows/oss-guard.yml in every published repo.
+# Same vocabulary as git/hooks/_dispatch and oss-publish.py (kept in sync
+# by github/test_oss_publish.py).
+name: oss-guard
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+  # gitleaks-action lists a PR's commits through the API; read-only, and
+  # comments are off below because posting them would need write.
+  pull-requests: read
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: gitleaks/gitleaks-action@e0c47f4f8be36e29cdc102c57e68cb5cbf0e8d1e # v3.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_ENABLE_COMMENTS: false
+      - name: No AI attribution in new commits
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          ai='(claude|anthropic|copilot|cursor|codex|openai|chatgpt|gemini|aider|devin)'
+          range="$BASE..HEAD"
+          git cat-file -e "$BASE" 2>/dev/null || range="HEAD"
+          if git log "$range" --format=%B |
+            grep -Eiq "^[[:space:]]*co-authored-by:.*$ai|generated (with|by) .*$ai"; then
+            echo "::error::AI attribution trailer in $range"
+            exit 1
+          fi
+          if git log "$range" --format='%an%n%cn' | grep -Eiqw "$ai"; then
+            echo "::error::commit authored by an AI tool identity in $range"
+            exit 1
+          fi
