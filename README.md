@@ -20,10 +20,10 @@ $ ./apkdiff.sh --intake ~/Downloads/20002242.apk_ --builds builds
 $ ./apkdiff.sh builds/20002242.apk                   # diff against the build before it
 ==> previous build: 20002241.apk
 ...
-com.openbubbles.messaging 2.0.0 (20002242)
+com.example.messenger 2.0.0 (20002242)
 8 of 1931 archive entries differ
 
-[CHANGE AREA] every changed class is in com.localob.messaging.app.facetime
+[CHANGE AREA] every changed class is in com.example.messenger.app.calls
 
 [STUB IMPLEMENTED] native: "TODO it didn't work" removed
         replaced by: "Reconnecting didn't work"
@@ -32,7 +32,7 @@ com.openbubbles.messaging 2.0.0 (20002242)
         native 'could not tell the service the call failed'
         java   " failed; the alert closes this window, not the service"
 
-[CHANGED CLASS] FaceTimeInCallService: 1 new field, 2 new methods, 1 body rewritten, 2 new strings
+[CHANGED CLASS] InCallService: 1 new field, 2 new methods, 1 body rewritten, 2 new strings
         + private final _callFailed: MutableStateFlow
         + public final callFailed()
         + public final getCallFailed() -> StateFlow
@@ -40,16 +40,16 @@ com.openbubbles.messaging 2.0.0 (20002242)
           loads " failed; ending it"
 
 [NEW USER-FACING TEXT] dex: 1 new message(s) shown to the user
-        "The connection to this call was lost and could not be re-established."   [FaceTimeCallScreenKt]
+        "The connection to this call was lost and could not be re-established."   [CallScreenKt]
 
 [BEHAVIOUR CHANGE] dex: 10 method(s) rewritten on 3 class(es), same signature
-        protected FaceTimeCallActivity.onCreate(Bundle)
-        public FaceTimeCallActivity.finishCall()
+        protected CallActivity.onCreate(Bundle)
+        public CallActivity.finishCall()
         ...
 ```
 
-That is a real result: it is the whole of what one build changed, found in three
-seconds.
+That is a real result, with the app's names replaced: it is the whole of what
+one build changed, found in three seconds.
 
 ## Usage
 
@@ -128,7 +128,7 @@ finds, and writes the whole thing as markdown:
   is gone from the library.**
     - **Native.** `TODO it didn't work` is no longer in the library, and
       `Reconnecting didn't work` is new
-    - **`FaceTimeInCallService`.**
+    - **`InCallService`.**
         - 2 new methods: `callFailed`, `getCallFailed`
         - 1 new field: `_callFailed: MutableStateFlow`
         - loads ` failed; ending it`, `native reported call `

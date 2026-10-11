@@ -179,8 +179,8 @@ def anonymous(cls):
 def outer(cls):
     """The top-level class a generated inner class belongs to.
 
-    A new dialog string is loaded by ComposableSingletons$FaceTimeCallScreenKt$
-    lambda-2$1; the useful name is FaceTimeCallScreenKt.
+    A new dialog string is loaded by ComposableSingletons$CallScreenKt$
+    lambda-2$1; the useful name is CallScreenKt.
     """
     tail = short(cls)
     # The ComposableSingletons$ wrapper has to come off before splitting, or the
@@ -216,15 +216,15 @@ def pretty(sig, owner=''):
 
     The reports carry lines like
 
-        .method private static final AudioCall(Lcom/x/FaceTimeCallActivity;
-        Lcom/x/FaceTimeInCallService;Lcom/x/CallParty;Ljava/lang/String;
+        .method private static final AudioCall(Lcom/x/CallActivity;
+        Lcom/x/InCallService;Lcom/x/CallParty;Ljava/lang/String;
         Landroidx/compose/runtime/Composer;I)V
 
     which is 250 characters of package path around six words of meaning. Every
     part of it that a reader needs is in
 
-        private static final AudioCall(FaceTimeCallActivity,
-        FaceTimeInCallService, CallParty, String, Composer, int)
+        private static final AudioCall(CallActivity,
+        InCallService, CallParty, String, Composer, int)
 
     and the full descriptor is still in the stage's own report for anyone who
     needs to tell two overloads apart.
@@ -468,7 +468,7 @@ def version(e):
 def area(e):
     """The package the change is confined to, when it is confined to one.
 
-    "every changed class is in com.localob.messaging.app.facetime" is the first
+    "every changed class is in com.example.messenger.app.calls" is the first
     thing worth knowing about a build, and the last thing the rest of this
     report says: every other rule names classes, none of them names where.
     Stage 3 prints a per-package histogram, but reading a confinement out of a
@@ -785,7 +785,7 @@ def _implied(sides):
     Kotlin writes a getter and a setter for every property, and the constructor
     that assigns it; a class that gained a field therefore "gains" up to three
     more members that nobody wrote and that say nothing the field has not
-    already said. `FaceTimeInCallService` gained `_callFailed` and reported
+    already said. `InCallService` gained `_callFailed` and reported
     `getCallFailed` beside it, and the rewritten `<init>` under it, as though
     three things had happened.
 
@@ -1148,7 +1148,7 @@ def hotspots(e):
     finding, new fields in another, rewritten bodies in a third, the messages
     they load in a fourth. That is the right shape for asking "what kind of
     change was this" and the wrong one for asking "what happened to
-    FaceTimeInCallService" — whose answer is otherwise spread across four
+    InCallService" — whose answer is otherwise spread across four
     sections, in four different orders, for the reader to join by eye. A
     release note is written the second way round, so the report should be able
     to answer that question without being re-sorted by hand.

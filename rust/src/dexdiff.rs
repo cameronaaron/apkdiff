@@ -32,7 +32,7 @@ pub struct ClassDelta {
     pub added: Vec<String>,
     pub removed: Vec<String>,
     /// Members whose signature is unchanged but whose bytecode differs. Named
-    /// rather than counted: "FaceTimeCallActivity.onCreate was rewired" is a
+    /// rather than counted: "CallActivity.onCreate was rewired" is a
     /// lead, "1 method body changed" is not.
     pub changed: Vec<String>,
 }
@@ -220,7 +220,7 @@ pub fn api_lines(deltas: &[ClassDelta]) -> Vec<String> {
 ///
 /// A bare list of new strings says what the build now says; this says who says
 /// it, which is the difference between "a dialog string appeared" and "the
-/// FaceTime screen gained a dialog".
+/// call screen gained a dialog".
 pub fn owner_lines(old: &Inventory, new: &Inventory) -> Vec<String> {
     let before: BTreeSet<&String> = old.values().flat_map(|c| c.literals.iter()).collect();
     let mut v = Vec::new();
