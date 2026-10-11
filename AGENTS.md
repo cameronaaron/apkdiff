@@ -364,7 +364,7 @@ That is the reader's orientation and the honest bound on everything below it.
 > A single-purpose bugfix build. Only `classes3.dex`, the four
 > `librust_bridge.so` ABIs, the dexopt profiles and the manifest's
 > `versionCode` differ from 20002241, and every changed class is in
-> `com.localob.messaging.app.facetime`.
+> `com.example.messenger.app.calls`.
 
 Then `### New`, `### Changed`, `### Fixed`, `### Notes` — in that order, each
 omitted when empty. The oldest build in a file is the baseline: say so in one
@@ -376,7 +376,7 @@ Every entry leads with a **bold sentence of plain English** a reader who has
 never opened the app could follow, and only then gives the evidence.
 
 - In `### Fixed`, that sentence says **what was broken and what the user
-  experienced**, not what the patch did — "A FaceTime call whose media link
+  experienced**, not what the patch did — "A call whose media link
   died left the app hung, with no way out."
 - In `### New` / `### Changed`, what the app can now do, or what moved and why
   it matters.

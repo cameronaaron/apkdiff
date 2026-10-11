@@ -18,7 +18,7 @@ rule you can read below and disagree with.
 
 **What it does not decide.** Why anything changed, what the user experienced
 before it, or whether a finding is worth reporting at all. The lead sentences
-here are descriptive by construction — "`FaceTimeInCallService` gained
+here are descriptive by construction — "`InCallService` gained
 `callFailed()`, and the native library gained a log string naming the same
 thing" — where a finished note leads with "a call whose media link died left
 the app hung, with no way out". Turning the first into the second is reading
@@ -89,7 +89,7 @@ CAMEL = re.compile(r'[A-Z]+(?![a-z])|[A-Z][a-z]+|[a-z]+|\d+')
 
 
 def name_words(name):
-    """The words inside an identifier: FaceTimeInCallService -> face time..."""
+    """The words inside an identifier: InCallService -> call, service"""
     return {w.lower() for w in CAMEL.findall(name) if len(w) > 3}
 
 
@@ -124,7 +124,7 @@ def member_label(sig):
 
     `pretty` renders a declaration — modifiers, owning class, parameters —
     which is right for a report that lists one per line and wrong inside a
-    comma-separated run, where "private static final FaceTimeCallScreenKt.
+    comma-separated run, where "private static final CallScreenKt.
     AudioCall" is forty characters carrying one word of information. The class
     is already the bullet's subject and the modifiers are in stage 3's report.
     """
@@ -149,7 +149,7 @@ class Topic:
     A topic is the join stage 7 deliberately does not make: the classes that
     moved together, the strings they load, and the native evidence that names
     the same thing. It exists because a reader asks "what happened to the
-    FaceTime call screen", and the answer is otherwise spread across six
+    call screen", and the answer is otherwise spread across six
     findings in four orders.
     """
 
@@ -315,7 +315,7 @@ def collect(e):
 # related by it: the runtime's own vocabulary, the Kotlin function types, and
 # the primitives. Linking on these would join every composable in the app.
 # Up to this many changed classes, a package is reported as one change. Set
-# from the two builds this was written against: the FaceTime fix touches three
+# from the two builds this was written against: the call fix touches three
 # classes and is one note, the conversation screen touches fifteen and is four.
 WHOLE_PACKAGE = 4
 

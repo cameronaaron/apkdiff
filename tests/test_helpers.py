@@ -519,17 +519,17 @@ def test_findings_reports_new_members_and_ignores_generated_churn(tmp_path):
 
 
 def test_findings_names_the_package_a_change_is_confined_to(tmp_path):
-    norm = ("CHANGED\tcom/x/app/facetime/Call\n"
-            "NEW\tcom/x/app/facetime/ui/Screen\n")
+    norm = ("CHANGED\tcom/x/app/calls/Call\n"
+            "NEW\tcom/x/app/calls/ui/Screen\n")
     out = findings(tmp_path, work={"appns.txt": "com/x/app\n",
                                    "classes3.dex.norm": norm})
-    assert "[CHANGE AREA] every changed class is in com.x.app.facetime" in out
+    assert "[CHANGE AREA] every changed class is in com.x.app.calls" in out
 
 
 def test_findings_says_nothing_about_area_when_the_change_is_spread(tmp_path):
     """A prefix no deeper than the namespace every app class already shares
     states only that the app changed, which the reader knew already."""
-    norm = ("CHANGED\tcom/x/app/facetime/Call\n"
+    norm = ("CHANGED\tcom/x/app/calls/Call\n"
             "CHANGED\tcom/x/app/settings/Prefs\n")
     out = findings(tmp_path, work={"appns.txt": "com/x/app\n",
                                    "classes3.dex.norm": norm})
@@ -538,11 +538,11 @@ def test_findings_says_nothing_about_area_when_the_change_is_spread(tmp_path):
 
 def test_findings_area_ignores_dependency_classes(tmp_path):
     """Otherwise a single androidx class drags the common prefix to nothing."""
-    norm = ("CHANGED\tcom/x/app/facetime/Call\n"
+    norm = ("CHANGED\tcom/x/app/calls/Call\n"
             "CHANGED\tandroidx/compose/runtime/Composer\n")
     out = findings(tmp_path, work={"appns.txt": "com/x/app\n",
                                    "classes3.dex.norm": norm})
-    assert "[CHANGE AREA] every changed class is in com.x.app.facetime" in out
+    assert "[CHANGE AREA] every changed class is in com.x.app.calls" in out
 
 
 def test_findings_joins_one_class_evidence_under_one_heading(tmp_path):
@@ -1294,11 +1294,11 @@ def test_pretty_renders_descriptors_as_a_signature():
     ns = runpy.run_path(FINDINGS, run_name="not_main")
     pretty = ns["pretty"]
     assert pretty(
-        ".method private static final AudioCall(Lcom/x/FaceTimeCallActivity;"
+        ".method private static final AudioCall(Lcom/x/CallActivity;"
         "Ljava/lang/String;[ILandroidx/compose/runtime/Composer;I)V",
-        "com/x/FaceTimeCallScreenKt",
-    ) == ("private static final FaceTimeCallScreenKt.AudioCall("
-          "FaceTimeCallActivity, String, int[], Composer, int)")
+        "com/x/CallScreenKt",
+    ) == ("private static final CallScreenKt.AudioCall("
+          "CallActivity, String, int[], Composer, int)")
     # A non-void return is stated; void is the default and stays unsaid.
     assert pretty(".method public run()I", "com/x/Job") == "public Job.run() -> int"
     # A nested class keeps the outer name, in the form source uses.
